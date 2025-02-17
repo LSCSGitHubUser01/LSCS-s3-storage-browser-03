@@ -9,10 +9,33 @@ import outputs from "@/amplify_outputs.json";
 import "@aws-amplify/ui-react/styles.css";
 import { Authenticator } from '@aws-amplify/ui-react';
 import { StorageBrowser } from '../components/StorageBrowser';
+import {
+  ThemeStyle, createTheme, defineComponentTheme,
+} from "@aws-amplify/ui-react/server";
+import { View } from "@aws-amplify/ui-react";
+
 
 Amplify.configure(outputs);
 
 const client = generateClient<Schema>();
+
+const storageBrowserTheme = defineComponentTheme({ name: "storage- browser",
+  theme: (tokens) => {
+    return {
+      _element: {
+        controls: {
+          flexDirection: "row- reverse",
+        backgroundColor: tokens.colors.background.primary,
+        padding: tokens.space.small,
+        borderRadius: tokens.radii.small,
+      },
+      title: {
+        fontWeight: tokens.fontWeights.thin,
+      },
+    },
+  };
+  },
+  });
 
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
@@ -36,15 +59,18 @@ export default function App() {
     <Authenticator>
       {({ signOut, user }) => (
         <main>
-            <h1>Hello {user?.username}</h1>
-            <button onClick={signOut}>Sign out</button>
+          <h1>Hello {user?.username}</h1>
+          <button onClick={signOut}>Sign out</button>
 
-          {/* StorageBrowser Component */}
-          <h2>Your Files</h2>
-          <StorageBrowser />
+          {/* StorageBrowser Component */}
+          <h2>Your Files</h2>
+          <StorageBrowser />
 
         </main>
       )}
     </Authenticator>
   );
 }
+
+
+

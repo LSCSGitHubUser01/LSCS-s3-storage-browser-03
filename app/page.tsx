@@ -37,6 +37,15 @@ const storageBrowserTheme = defineComponentTheme({ name: "storage- browser",
   },
   });
 
+  const theme = createTheme({
+    name: 'my-theme',
+    primaryColor: 'green',
+    components: [storageBrowserTheme],
+  });
+  
+ 
+  
+  
 export default function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
 
@@ -71,6 +80,3 @@ export default function App() {
     </Authenticator>
   );
 }
-
-
-
